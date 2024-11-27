@@ -18,7 +18,7 @@ func CheckEroors(arr []string) bool {
 	return true
 }
 
-func CheckStarEnd(arr []string) bool {
+/* func CheckStarEnd(arr []string) bool {
 	StartCount := 0
 	EndCount := 0
 	for i, str := range arr {
@@ -38,7 +38,7 @@ func CheckStarEnd(arr []string) bool {
 		}
 	}
 	return StartCount == 1 && EndCount == 1
-}
+} */
 
 func CheckRoom(str string) bool {
 	arr := strings.Split(str, " ")
