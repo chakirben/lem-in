@@ -12,6 +12,7 @@ func main() {
 		fmt.Println("invalid number of args ")
 		return
 	}
-	arr := f.Readfile()
-	f.CheckEroors(arr)
+	farm := f.Readfile()
+	f.ParseFarm(farm)
+	//f.CheckEroors(arr)
 }

@@ -5,6 +5,8 @@ import (
 	"strings"
 )
 
+var Rooms []string
+
 func CheckEroors(arr []string) bool {
 	if len(arr) == 0 {
 		return false
@@ -12,12 +14,8 @@ func CheckEroors(arr []string) bool {
 	arr = DeleteComments(arr)
 	CheckNOfAnts(arr)
 	CheckStarEnd(arr)
+	Checklink(arr[1])
 	return true
-}
-
-func CheckNOfAnts(arr []string) bool {
-	_, err := strconv.Atoi(arr[0])
-	return err != nil
 }
 
 func CheckStarEnd(arr []string) bool {
@@ -71,4 +69,38 @@ func DeleteComments(arr []string) []string {
 		arr2 = append(arr2, str)
 	}
 	return arr2
+}
+
+func Checklink(str string) bool {
+	if len(str) < 3 {
+		return false
+	}
+	// hadi bach kanchof wach kayna - f wst 2 strings
+	arr := strings.Split(str, "-")
+	if len(arr) != 2 {
+		return false
+	}
+	// hadi bach nchof dok rooms wach kaynin
+	if !RoomExist(arr[0], Rooms) || !RoomExist(arr[2], Rooms) {
+		return false
+	}
+	return true 
+}
+
+func containlink(str string) bool {
+	for i, char := range str {
+		if i != 0 && char == '-' {
+			return true
+		}
+	}
+	return false
+}
+
+func RoomExist(str string, Rooms []string) bool {
+	for _, ele := range Rooms {
+		if ele == str {
+			return true
+		}
+	}
+	return false
 }
