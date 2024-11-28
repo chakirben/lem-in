@@ -18,7 +18,7 @@ func CheckRoom(str string) bool {
 	if err2 != nil {
 		return false
 	}
-	return err2 == nil
+	return true
 }
 
 func IsCooRepeated(str string) bool {

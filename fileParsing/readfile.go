@@ -14,7 +14,7 @@ func Readfile() []string {
 	scanner := bufio.NewScanner(file)
 	arr := []string{}
 	for scanner.Scan() {
-		arr = append(arr, scanner.Text()+"\n")
+		arr = append(arr, scanner.Text())
 	}
 	return arr
 }

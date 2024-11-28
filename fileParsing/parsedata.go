@@ -16,7 +16,7 @@ var (
 )
 
 func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string, err error) {
-	DeleteComments(input)
+	input = DeleteComments(input)
 	NOA, err2 := CheckNOfAnts(input[0])
 	if err2 != nil {
 		return NOA, nil, nil, err2
@@ -24,11 +24,6 @@ func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string
 	for i, line := range input {
 		if i == 0 {
 			continue
-		}
-		if line == "##start" || line == "##end" {
-			if !CheckStartEnd(line, i, input) {
-				return NOA, nil, nil, err2
-			}
 		}
 		if CheckRoom(line) {
 			if IsRoomRepeated(line) {
@@ -42,11 +37,19 @@ func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string
 			Coordinations = append(Coordinations, ro[1]+" "+ro[2])
 			continue
 		}
+
 		if Checklink(line) {
 			links = append(links, line)
 			continue
 		}
+		if line == "##start" || line == "##end" {
+			if !CheckStartEnd(line, i, input) {
+				return NOA, nil, nil, fmt.Errorf("Error: Invalid data after ##Start or  ##End Argument")
+			} else {
+				continue
+			}
+		}
 		return 0, nil, nil, fmt.Errorf("ERROR: invalid data format ")
 	}
-	return 0, nil, nil, fmt.Errorf("ERROR: invalid data format ")
+	return NOA, Rooms, links, nil
 }

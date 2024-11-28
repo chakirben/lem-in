@@ -14,6 +14,7 @@ func CheckStartEnd(str string, indice int, input []string) bool {
 		} else {
 			StartRoom = input[indice+1]
 			Started = true
+			return true
 		}
 	} else {
 		if Ended {
@@ -21,7 +22,7 @@ func CheckStartEnd(str string, indice int, input []string) bool {
 		} else {
 			EndRoom = input[indice+1]
 			Ended = true
+			return true
 		}
 	}
-	return false
 }

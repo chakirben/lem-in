@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"os"
 
-	f "lem_in/functions"
+	f "lem_in/fileParsing"
 )
 
 func main() {
@@ -13,6 +13,11 @@ func main() {
 		return
 	}
 	farm := f.Readfile()
-	f.ParseFarm(farm)
-	//f.CheckEroors(arr)
+	NOA, Rooms, Links, err := f.ParseFarm(farm)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
+	fmt.Println(fmt.Sprintf("%v\n\n%v\n\n%v\n\n%v\n\n%v", NOA, Rooms, Links, f.StartRoom, f.EndRoom))
+	// f.CheckEroors(arr)
 }
