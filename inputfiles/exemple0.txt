@@ -1,20 +1,21 @@
-47
+3
 ##start
-start 23 3
-1 16 7
-#comment
-2 9 5
-3 10 10
-4 5 1
+start 1 2
+1 5 5
+2 6 6
+3 7 7
+4 8 8
+5 9 9
+6 10 10
 ##end
-end 5 5
-#another comment
+end 9 2
 start-1
 start-2
-start-3
 1-3
 1-4
+3-6
+4-6
 2-4
-start-4
-2-3
-3-end
+2-5
+5-6
+6-end

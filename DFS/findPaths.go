@@ -1,7 +1,6 @@
 package dfs
 
 import (
-	"fmt"
 	"strings"
 
 	P "lem_in/fileParsing"
@@ -23,32 +22,15 @@ func FindPaths(links []string, Start string, End string, room string, path strin
 		Paths = append(Paths, path[1:]+"-"+End)
 		return
 	}
-	if Visited[room] {
-		return
-	}
-	if InCircles(room, path) {
-		fmt.Println("circle found!")
-		return
-	}
-	Visited[Start] = true
+	Visited[room] = true
 	neighbors := GetAdjacencyOf(room)
-	fmt.Println(neighbors)
 	for _, nei := range neighbors {
 		if Visited[nei] {
 			continue
 		}
 		FindPaths(links, Start, End, nei, path+"-"+room)
 	}
-}
-
-func InCircles(room string, path string) bool {
-	pathRooms := strings.Split(path, "-")
-	for _, ele := range pathRooms {
-		if ele == room {
-			return true
-		}
-	}
-	return false
+	Visited[room] = false
 }
 
 func GetAdjacencyOf(room string) []string {
@@ -80,3 +62,12 @@ func GetAdjacencyOf(room string) []string {
 	return true
 }
 */
+/* func InCircles(room string, path string) bool {
+	pathRooms := strings.Split(path, "-")
+	for _, ele := range pathRooms {
+		if ele == room {
+			return true
+		}
+	}
+	return false
+} */

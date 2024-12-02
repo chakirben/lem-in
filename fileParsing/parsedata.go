@@ -3,6 +3,7 @@ package lem_in
 import (
 	"fmt"
 	"strings"
+	"lem_in/DFS"
 )
 
 var (
@@ -13,7 +14,14 @@ var (
 	Rooms         []string
 	Links         []string
 	Coordinations []string
+	Rooms_Links   = make(map[string][]string)
 )
+
+func FillAdjacency() {
+	for _, ele := range Rooms {
+		Rooms_Links[ele] = dfs.GetAdjacencyOf(ele)
+	}
+}
 
 func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string, err error) {
 	input = DeleteComments(input)

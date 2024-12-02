@@ -5,8 +5,7 @@ import (
 	"os"
 	"strings"
 
-	dfs "lem_in/DFS"
-	f "lem_in/fileParsing"
+	f "lem_in/fileParsing/"
 )
 
 func main() {
@@ -24,6 +23,7 @@ func main() {
 	dfs.InitializeMap()
 	start := strings.Split(f.StartRoom, " ")
 	end := strings.Split(f.EndRoom, " ")
+
 	dfs.FindPaths(Links, start[0], end[0], start[0], "")
 	for _, path := range dfs.Paths {
 		fmt.Println("path : " + path)
