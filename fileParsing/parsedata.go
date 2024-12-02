@@ -39,7 +39,7 @@ func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string
 		}
 
 		if Checklink(line) {
-			links = append(links, line)
+			Links = append(Links, line)
 			continue
 		}
 		if line == "##start" || line == "##end" {
@@ -51,5 +51,5 @@ func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string
 		}
 		return 0, nil, nil, fmt.Errorf("ERROR: invalid data format ")
 	}
-	return NOA, Rooms, links, nil
+	return NOA, Rooms, Links, nil
 }

@@ -3,7 +3,9 @@ package main
 import (
 	"fmt"
 	"os"
+	"strings"
 
+	dfs "lem_in/DFS"
 	f "lem_in/fileParsing"
 )
 
@@ -18,6 +20,13 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	fmt.Println(fmt.Sprintf("%v\n\n%v\n\n%v\n\n%v\n\n%v", NOA, Rooms, Links, f.StartRoom, f.EndRoom))
-	// f.CheckEroors(arr)
+	fmt.Printf("%v\n\n%v\n\n%v\n\n%v\n\n%v\n\n", NOA, Rooms, Links, f.StartRoom, f.EndRoom)
+	dfs.InitializeMap()
+	start := strings.Split(f.StartRoom, " ")
+	end := strings.Split(f.EndRoom, " ")
+	dfs.FindPaths(Links, start[0], end[0], start[0], "")
+	for _, path := range dfs.Paths {
+		fmt.Println("path : " + path)
+	}
+	
 }
