@@ -11,7 +11,7 @@ import (
 
 func main() {
 	if len(os.Args) != 2 {
-		fmt.Println("invalid number of args ")
+		ArgError()
 		return
 	}
 	farm := f.Readfile()
@@ -28,5 +28,9 @@ func main() {
 	for _, path := range dfs.Paths {
 		fmt.Println("path : " + path)
 	}
-	
+}
+
+func ArgError() {
+	fmt.Println("invalid number of args")
+	fmt.Println("usage: ./lem-in <filename> || go run main.go <filename>")
 }
