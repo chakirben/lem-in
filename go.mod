@@ -1,3 +1,3 @@
-module lem_in
+module lem-in
 
-go 1.22.3
+go 1.23.3
