@@ -3,31 +3,34 @@ package lem_in
 import (
 	"fmt"
 	"strings"
-	"lem_in/DFS"
+)
+
+type Farm struct {
+	Rooms map[string][]string
+	Start string
+	End   string
+	NOA   int
+}
+
+var (
+	Fa = Farm{
+		Rooms: make(map[string][]string),
+	}
+	Rooms = make(map[string][]string)
 )
 
 var (
-	StartRoom     string
 	Started       bool = false
-	EndRoom       string
 	Ended         bool = false
-	Rooms         []string
 	Links         []string
 	Coordinations []string
-	Rooms_Links   = make(map[string][]string)
 )
 
-func FillAdjacency() {
-	for _, ele := range Rooms {
-		Rooms_Links[ele] = dfs.GetAdjacencyOf(ele)
-	}
-}
-
-func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string, err error) {
+func ParseFarm(input []string) (err error) {
 	input = DeleteComments(input)
-	NOA, err2 := CheckNOfAnts(input[0])
+	err2 := CheckNOfAnts(input[0])
 	if err2 != nil {
-		return NOA, nil, nil, err2
+		return err2
 	}
 	for i, line := range input {
 		if i == 0 {
@@ -35,29 +38,38 @@ func ParseFarm(input []string) (NumberOfAnts int, rooms []string, links []string
 		}
 		if CheckRoom(line) {
 			if IsRoomRepeated(line) {
-				return NOA, nil, nil, fmt.Errorf("Rooms Repeated")
+				return fmt.Errorf("Rooms Repeated")
 			}
 			if IsCooRepeated(line) {
-				return NOA, nil, nil, fmt.Errorf("Coordinates Repeated")
+				return fmt.Errorf("Coordinates Repeated")
 			}
 			ro := strings.Split(line, " ")
-			Rooms = append(Rooms, ro[0])
+			Fa.Rooms[ro[0]] = []string(nil)
 			Coordinations = append(Coordinations, ro[1]+" "+ro[2])
 			continue
 		}
 
 		if Checklink(line) {
+			rr := strings.Split(line, "-")
+			Fa.Rooms[rr[0]] = append(Fa.Rooms[rr[0]], rr[1])
+			Fa.Rooms[rr[1]] = append(Fa.Rooms[rr[1]], rr[0])
 			Links = append(Links, line)
 			continue
 		}
 		if line == "##start" || line == "##end" {
 			if !CheckStartEnd(line, i, input) {
-				return NOA, nil, nil, fmt.Errorf("Error: Invalid data after ##Start or  ##End Argument")
+				return fmt.Errorf("Error: Invalid data after ##Start or  ##End Argument")
 			} else {
 				continue
 			}
 		}
-		return 0, nil, nil, fmt.Errorf("ERROR: invalid data format ")
+		return fmt.Errorf("ERROR: invalid data format ")
 	}
-	return NOA, Rooms, Links, nil
+	return nil
 }
+
+/* func FillAdjacency() {
+	for _, ele := range Rooms {
+		Rooms_Links[ele] = dfs.GetAdjacencyOf(ele)
+	}
+} */

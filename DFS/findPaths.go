@@ -1,39 +1,34 @@
 package dfs
-
-import (
-	"strings"
-
-	P "lem_in/fileParsing"
-)
+import f"lem_in/fileParsing"
 
 var (
 	Visited = make(map[string]bool)
 	Paths   []string
 )
 
-func InitializeMap() {
-	for _, ele := range P.Rooms {
+func InitializeMap(fr *f.Farm) {
+	for ele := range fr.Rooms {
 		Visited[ele] = false
 	}
 }
 
-func FindPaths(links []string, Start string, End string, room string, path string) {
-	if room == End {
-		Paths = append(Paths, path[1:]+"-"+End)
+func FindPaths(Frm *f.Farm, room string, path string) {
+	if room == Frm.End {
+		Paths = append(Paths, path[1:]+"-"+Frm.End)
 		return
 	}
 	Visited[room] = true
-	neighbors := GetAdjacencyOf(room)
-	for _, nei := range neighbors {
+	// neighbors := GetAdjacencyOf(room)
+	for _, nei := range Frm.Rooms[room] {
 		if Visited[nei] {
 			continue
 		}
-		FindPaths(links, Start, End, nei, path+"-"+room)
+		FindPaths(Frm, nei, path+"-"+room)
 	}
 	Visited[room] = false
 }
 
-func GetAdjacencyOf(room string) []string {
+/* func GetAdjacencyOf(room string) []string {
 	Adjacency := []string{}
 	for _, link := range P.Links {
 		arr := strings.Split(link, "-")
@@ -45,7 +40,7 @@ func GetAdjacencyOf(room string) []string {
 		}
 	}
 	return Adjacency
-}
+} */
 
 /* func findShortestPath(links []string, Start string, End string, room string) bool {
 	if room == End {
