@@ -5,6 +5,7 @@ import (
 	"os"
 
 	dfs "lem_in/DFS"
+	A "lem_in/antJourney"
 	f "lem_in/fileParsing"
 )
 
@@ -30,6 +31,10 @@ func main() {
 	for _, path := range dfs.Paths {
 		fmt.Println("path : " + path)
 	}
+	for i := range f.Fa.NOA {
+		A.AntPositions[i+1] = f.Fa.Start
+	}
+	fmt.Println(A.AntPositions)
 }
 
 /* func InitializeMap() {
