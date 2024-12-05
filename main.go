@@ -34,7 +34,7 @@ func main() {
 		fmt.Println(path)
 	}
 	A.SpreadAnts(f.Fa.NOA, sl2)
-	//	A.DeleteStart()
+	//A.DeleteStart()
 	A.InitPathlength(sl2)
 	A.InitPositions(f.Fa.Start, f.Fa.NOA)
 	A.InitRooms(f.Roommss, f.Fa.Start, f.Fa.NOA)
