@@ -28,13 +28,27 @@ func main() {
 	// start := strings.Split(f.Fa.Start, " ")
 	//	end := strings.Split(f.Farm.End, " ")
 	dfs.FindPaths(&f.Fa, f.Fa.Start, "")
-	for _, path := range dfs.Paths {
-		fmt.Println("path : " + path)
+	sl := dfs.TrimPaths(dfs.Paths)
+	sl2 := dfs.SortPath(sl)
+	for _, path := range sl2 {
+		fmt.Println(path)
 	}
+	A.SpreadAnts(f.Fa.NOA, sl2)
+	//	A.DeleteStart()
+	A.InitPathlength(sl2)
+	A.InitPositions(f.Fa.Start, f.Fa.NOA)
+	A.InitRooms(f.Roommss, f.Fa.Start, f.Fa.NOA)
+	fmt.Println(A.AntPositions)
+	fmt.Println("---------------------------------")
+	fmt.Println("the Positions : ", A.AntPositions)
+	fmt.Println("the path lengths : ", A.PathwithAnts)
+	fmt.Println("the ant paths : ", A.AntPaths)
+	fmt.Println("the rooms : ", A.RoomsSate)
+	fmt.Println("---------------------------------")
+	A.FindAntJourney(f.Fa.NOA, f.Fa.End, f.Fa.Start)
 	for i := range f.Fa.NOA {
 		A.AntPositions[i+1] = f.Fa.Start
 	}
-	fmt.Println(A.AntPositions)
 }
 
 /* func InitializeMap() {

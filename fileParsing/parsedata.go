@@ -23,6 +23,7 @@ var (
 	Started       bool = false
 	Ended         bool = false
 	Links         []string
+	Roommss       []string
 	Coordinations []string
 )
 
@@ -44,6 +45,7 @@ func ParseFarm(input []string) (err error) {
 				return fmt.Errorf("Coordinates Repeated")
 			}
 			ro := strings.Split(line, " ")
+			Roommss = append(Roommss, ro[0])
 			Fa.Rooms[ro[0]] = []string(nil)
 			Coordinations = append(Coordinations, ro[1]+" "+ro[2])
 			continue
