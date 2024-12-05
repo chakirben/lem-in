@@ -13,10 +13,12 @@ func main() {
 	}
 	filepath := os.Args[1]
 	err := server.ReadFile(filepath)
-	if err != nil {
+	if err != "" {
 		fmt.Println(err)
 		return
 	}
+
+	server.PrintAll()
 	farm := server.Rooms
 	for k, v := range farm {
 		fmt.Println("Room: ", k, "Linked to the following: ", v)
