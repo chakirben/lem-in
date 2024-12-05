@@ -32,7 +32,7 @@ func ReadFile(filepath string) string {
 	for scanner.Scan() {
 		line := strings.TrimSpace(scanner.Text())
 		if line == "" {
-			continue
+			return "ERROR: invalid data format, empty line inside the file"
 		}
 
 		if line[0] == '#' {
@@ -46,6 +46,10 @@ func ReadFile(filepath string) string {
 			default:
 				continue
 			}
+		}
+
+		if line[0] == 'L' {
+			return "ERROR: invalid data format, room name cannot start with 'L'"
 		}
 
 		// get number of ants
