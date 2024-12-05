@@ -17,7 +17,7 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	farm := server.AdvMap.Rooms
+	farm := server.Rooms
 	for k, v := range farm {
 		fmt.Println("Room: ", k, "Linked to the following: ", v)
 	}
