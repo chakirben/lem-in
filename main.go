@@ -45,7 +45,7 @@ func main() {
 	fmt.Println("the ant paths : ", A.AntPaths)
 	fmt.Println("the rooms : ", A.RoomsSate)
 	fmt.Println("---------------------------------")
-//	A.FindAntJourney(f.Fa.NOA, f.Fa.End, f.Fa.Start)
+	A.FindAntJourney(f.Fa.NOA, f.Fa.End, f.Fa.Start)
 	for i := range f.Fa.NOA {
 		A.AntPositions[i+1] = f.Fa.Start
 	}
