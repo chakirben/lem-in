@@ -83,6 +83,7 @@ func SpreadAnts(NOA int, paths [][]string) {
 	indice := 0
 	Sindice := 1
 	for i := range NOA {
+		fmt.Println("ant ", i, " indice is ", indice, " to compaire is ", Sindice)
 		// gives the first ant the first path
 		fmt.Println(PathwithAnts)
 		if i == 0 {
@@ -92,6 +93,7 @@ func SpreadAnts(NOA int, paths [][]string) {
 		}
 		// if  you're in the middle  compare which path is shorter
 		if len(paths)-1 > indice && indice > 0 {
+			fmt.Println("compared with ", Sindice)
 			Sindice = Getshorteindice(indice-1, indice+1)
 		}
 		// if you are at the end compaire with the previous
