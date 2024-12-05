@@ -33,7 +33,7 @@ func main() {
 	// 	fmt.Println("Room: ", k, "Linked to the following: ", v)
 	// }
 	algo.MaxFlow() // max numver of paths
-	fmt.Println("MaxFlow Generated at:", CurrentTime.Format("15:04:05"))
+	//fmt.Println("MaxFlow Generated at:", CurrentTime.Format("15:04:05"))
 
 	//fmt.Println("Max number of paths: ", maxNumPaths)
 	paths := algo.ExtractPaths(algo.Farm)
