@@ -10,9 +10,9 @@ var (
 )
 
 func FindAntJourney(NOA int, end string, start string) {
-	for RoomsSate[end] != NOA  {
+	for RoomsSate[end] != NOA {
 		for i := range NOA {
-			Move(i, start, end)
+			Move(i, end, start)
 		}
 		fmt.Println()
 	}
@@ -42,16 +42,27 @@ func Move(i int, end string, start string) bool {
 	if len(AntPaths[i]) < 2 {
 		return false
 	}
+	// fmt.Println("------------")
+	// fmt.Println("the ant is :", i, "currently at  ", AntPaths[i][0], "it's next room is ", AntPaths[i][1], "and it's ", RoomsSate[AntPaths[i][1]])
+	// check if next room is end
+	if AntPaths[i][1] == end {
+		fmt.Printf("L%v-%v ", AntPaths[i][0], AntPaths[i][1])
+		RoomsSate[AntPaths[i][0]]--
+		AntPositions[i] = end
+		AntPaths[i] = []string{}
+		RoomsSate[end]++
+		return true
+	}
 	if RoomsSate[AntPaths[i][1]] == 0 {
-		fmt.Printf("L%v-%v ", AntPositions[i], AntPaths[i][0])
+		fmt.Printf("L%v-%v ", AntPaths[i][0], AntPaths[i][1])
 		RoomsSate[AntPositions[i]]--
-		AntPositions[i] = AntPaths[i][0]
-		RoomsSate[AntPaths[i][0]]++
+		AntPositions[i] = AntPaths[i][1]
+		RoomsSate[AntPaths[i][1]]++
 		AntPaths[i] = AntPaths[i][1:]
 		return true
 	}
 
-	if AntPaths[i][0] == start {
+	/* if AntPaths[i][0] == start {
 		AntPositions[i] = start
 		AntPaths[i] = AntPaths[i][1:]
 		RoomsSate[start]++
@@ -64,7 +75,7 @@ func Move(i int, end string, start string) bool {
 		RoomsSate[end]++
 		return true
 	}
-	// move to room if it's empty
+	// move to room if it's empty */
 	return false
 }
 
