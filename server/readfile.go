@@ -94,11 +94,11 @@ func ReadFile(filepath string) string {
 		// 	return "ERROR: invalid data format"
 		// }
 
-		if Start == "" || End == "" {
-			fmt.Println("Start: ", Start)
-			fmt.Println("End: ", End)
-			return "ERROR: invalid data format, Start or End room not found"
-		}
+	}
+	if Start == "" || End == "" {
+		fmt.Println("Start: ", Start)
+		fmt.Println("End: ", End)
+		return "ERROR: invalid data format, Start or End room not found"
 	}
 
 	return ""
