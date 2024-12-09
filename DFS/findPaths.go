@@ -1,12 +1,16 @@
 package dfs
 
 import (
-	f "lem_in/fileParsing"
-	"sort"
+	lem_in "lem_in/fileParsing"
 	"strings"
 )
 
-func InitializeMap(fr *f.Farm) map[string]bool {
+// import (
+// 	f "lem_in/fileParsing"
+// 	"strings"
+// )
+
+func InitializeMap(fr *lem_in.Farm) map[string]bool {
 	visited := make(map[string]bool)
 	for room := range fr.Rooms {
 		visited[room] = false
@@ -15,7 +19,7 @@ func InitializeMap(fr *f.Farm) map[string]bool {
 }
 
 // FindPaths recursively finds all paths from start to end
-func FindPaths(farm *f.Farm, room string, path []string, visited map[string]bool) [][]string {
+func FindPaths(farm *lem_in.Farm, room string, path []string, visited map[string]bool) [][]string {
 	if room == farm.End {
 		return [][]string{append(path, farm.End)}
 	}
@@ -33,7 +37,7 @@ func FindPaths(farm *f.Farm, room string, path []string, visited map[string]bool
 	return allPaths
 }
 
-func GetUniqueAndFilteredPaths(farm *f.Farm) ([][]string, [][]string) {
+func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][]string) {
 	visited := InitializeMap(farm)
 	allPaths := FindPaths(farm, farm.Start, []string{}, visited)
 
@@ -48,10 +52,10 @@ func GetUniqueAndFilteredPaths(farm *f.Farm) ([][]string, [][]string) {
 		uniquePaths = append(uniquePaths, strings.Split(pathStr, "-"))
 	}
 
-	// Sort the unique paths by their length
-	sort.Slice(uniquePaths, func(i, j int) bool {
-		return len(uniquePaths[i]) < len(uniquePaths[j])
-	})
+	// // Sort the unique paths by their length
+	// sort.Slice(uniquePaths, func(i, j int) bool {
+	// 	return len(uniquePaths[i]) < len(uniquePaths[j])
+	// })
 
 	usedRooms := make(map[string]bool)
 	var FilteredPaths [][]string
@@ -79,3 +83,69 @@ func GetUniqueAndFilteredPaths(farm *f.Farm) ([][]string, [][]string) {
 	return uniquePaths, FilteredPaths
 }
 
+// ########################################################################## test Other way
+
+// func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][][]string) {
+// 	visited := InitializeMap(farm)
+// 	allPaths := FindPaths(farm, farm.Start, []string{}, visited)
+
+// 	uniquePathsMap := make(map[string]struct{})
+// 	for _, path := range allPaths {
+// 		pathStr := strings.Join(path, "-")
+// 		uniquePathsMap[pathStr] = struct{}{}
+// 	}
+
+// 	var uniquePaths [][]string
+// 	for pathStr := range uniquePathsMap {
+// 		uniquePaths = append(uniquePaths, strings.Split(pathStr, "-"))
+// 	}
+
+// 	// Recursive helper function to generate all combinations of non-overlapping paths
+// 	var findCombinations func(paths [][]string, usedRooms map[string]bool, currentCombination [][]string) [][][]string
+// 	findCombinations = func(paths [][]string, usedRooms map[string]bool, currentCombination [][]string) [][][]string {
+// 		if len(paths) == 0 {
+// 			return [][][]string{currentCombination}
+// 		}
+
+// 		var results [][][]string
+// 		for i, path := range paths {
+// 			isNonOverlapping := true
+// 			for _, room := range path {
+// 				if room != farm.Start && room != farm.End && usedRooms[room] {
+// 					isNonOverlapping = false
+// 					break
+// 				}
+// 			}
+
+// 			if isNonOverlapping {
+// 				// Mark rooms as used and add the current path to the combination
+// 				newUsedRooms := copyMap(usedRooms)
+// 				for _, room := range path {
+// 					if room != farm.Start && room != farm.End {
+// 						newUsedRooms[room] = true
+// 					}
+// 				}
+// 				newCombination := append(currentCombination, path)
+// 				// Explore further combinations excluding the current path
+// 				results = append(results, findCombinations(paths[i+1:], newUsedRooms, newCombination)...)
+// 			}
+// 		}
+// 		// Add the case where no more paths are selected
+// 		results = append(results, currentCombination)
+// 		return results
+// 	}
+
+// 	// Initialize with an empty combination and no used rooms
+// 	allCombinations := findCombinations(uniquePaths, make(map[string]bool), nil)
+
+// 	return uniquePaths, allCombinations
+// }
+
+// // Helper function to create a copy of a map
+// func copyMap(original map[string]bool) map[string]bool {
+// 	copy := make(map[string]bool)
+// 	for key, value := range original {
+// 		copy[key] = value
+// 	}
+// 	return copy
+// }
