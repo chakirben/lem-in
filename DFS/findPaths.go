@@ -33,19 +33,16 @@ func FindPaths(farm *f.Farm, room string, path []string, visited map[string]bool
 	return allPaths
 }
 
-// GetUniqueSortedPaths filters unique paths and sorts them by length
-func GetUniqueSortedPaths(farm *f.Farm) [][]string {
+func GetUniqueAndFilteredPaths(farm *f.Farm) ([][]string, [][]string) {
 	visited := InitializeMap(farm)
 	allPaths := FindPaths(farm, farm.Start, []string{}, visited)
 
 	uniquePathsMap := make(map[string]struct{})
 	for _, path := range allPaths {
-		// Convert path slice to a string representation
 		pathStr := strings.Join(path, "-")
 		uniquePathsMap[pathStr] = struct{}{}
 	}
 
-	// Convert map keys back to slices and collect unique paths
 	var uniquePaths [][]string
 	for pathStr := range uniquePathsMap {
 		uniquePaths = append(uniquePaths, strings.Split(pathStr, "-"))
@@ -56,5 +53,29 @@ func GetUniqueSortedPaths(farm *f.Farm) [][]string {
 		return len(uniquePaths[i]) < len(uniquePaths[j])
 	})
 
-	return uniquePaths
+	usedRooms := make(map[string]bool)
+	var FilteredPaths [][]string
+
+	for _, path := range uniquePaths {
+		isNonOverlapping := true
+		for _, room := range path {
+			if room != farm.Start && room != farm.End && usedRooms[room] {
+				isNonOverlapping = false
+				break
+			}
+		}
+
+		if isNonOverlapping {
+			FilteredPaths = append(FilteredPaths, path)
+			// Mark rooms in the current path as used
+			for _, room := range path {
+				if room != farm.Start && room != farm.End {
+					usedRooms[room] = true
+				}
+			}
+		}
+	}
+
+	return uniquePaths, FilteredPaths
 }
+

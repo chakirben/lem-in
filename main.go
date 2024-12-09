@@ -23,7 +23,11 @@ func main() {
 	// initialize the visited map
 	//visited := dfs.InitializeMap(&f.Fa)
 	//dfs.FindPaths(&f.Fa, f.Fa.Start, []string{}, visited)
-	paths := dfs.GetUniqueSortedPaths(&f.Fa)
+	paths, filterdpaths := dfs.GetUniqueAndFilteredPaths(&f.Fa)
+	if len(paths) == 0 {
+		fmt.Println("ERROR: invalid data format, No Paths Found")
+		return
+	}
 	//sl := dfs.TrimPaths(dfs.Paths)
 	//sl2 := dfs.SortPath(paths)
 	for _, path := range paths {
@@ -31,11 +35,11 @@ func main() {
 	}
 
 	//A.DeleteStart()
-	A.InitPathlength(paths)
+	A.InitPathlength(filterdpaths)
 	//fmt.Println("Test Test: ", A.PathwithAnts)
-	A.InitPositions(f.Fa.Start, f.Fa.Ants)
-	A.SpreadAnts(f.Fa.Ants, paths)
-	//A.InitRooms(f.Roommss, f.Fa.Start, f.Fa.Ants)
+	//A.InitPositions(f.Fa.Start, f.Fa.Ants)
+	A.SpreadAnts(f.Fa.Ants, filterdpaths)
+	A.InitRooms(f.Roommss, f.Fa.Start, f.Fa.Ants)
 	fmt.Println(A.AntPositions)
 	fmt.Println("---------------------------------")
 	fmt.Println("the Positions : ", A.AntPositions)
