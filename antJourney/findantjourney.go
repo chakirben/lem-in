@@ -11,7 +11,8 @@ var (
 
 func FindAntJourney(NOA int, end string, start string) {
 	for RoomsSate[end] != NOA {
-		for i := range NOA {
+		for i := 1; i <= NOA; i++ {
+
 			Move(i, end, start)
 		}
 		fmt.Println()
@@ -45,8 +46,9 @@ func Move(i int, end string, start string) bool {
 	// fmt.Println("------------")
 	// fmt.Println("the ant is :", i, "currently at  ", AntPaths[i][0], "it's next room is ", AntPaths[i][1], "and it's ", RoomsSate[AntPaths[i][1]])
 	// check if next room is end
+	//fmt.Println(AntPaths)
 	if AntPaths[i][1] == end {
-		fmt.Printf("L%v-%v ", AntPaths[i][0], AntPaths[i][1])
+		fmt.Printf("L%v-%v ", i, AntPaths[i][1])
 		RoomsSate[AntPaths[i][0]]--
 		AntPositions[i] = end
 		AntPaths[i] = []string{}
@@ -54,7 +56,7 @@ func Move(i int, end string, start string) bool {
 		return true
 	}
 	if RoomsSate[AntPaths[i][1]] == 0 {
-		fmt.Printf("L%v-%v ", AntPaths[i][0], AntPaths[i][1])
+		fmt.Printf("L%v-%v ", i, AntPaths[i][1])
 		RoomsSate[AntPositions[i]]--
 		AntPositions[i] = AntPaths[i][1]
 		RoomsSate[AntPaths[i][1]]++
@@ -80,37 +82,60 @@ func Move(i int, end string, start string) bool {
 }
 
 func SpreadAnts(NOA int, paths [][]string) {
+
 	indice := 0
 	Sindice := 1
-	for i := range NOA {
+	for i := 1; i <= NOA; i++ {
+		if len(paths) == 1 {
+			fmt.Println(i)
+			AntPaths[i+1] = paths[0]
+			continue
+		}
 		fmt.Println("ant ", i, " indice is ", indice, " to compaire is ", Sindice)
 		// gives the first ant the first path
 		fmt.Println(PathwithAnts)
-		if i == 0 {
-			AntPaths[i] = paths[0]
-			PathwithAnts[indice]++
-			continue
-		}
-		// if  you're in the middle  compare which path is shorter
-		if len(paths)-1 > indice && indice > 0 {
-			fmt.Println("compared with ", Sindice)
-			Sindice = Getshorteindice(indice-1, indice+1)
-		}
-		// if you are at the end compaire with the previous
-		if len(paths)-1 == indice {
-			if indice > 0 {
-				Sindice = indice - 1
-			}
-		}
-		// compaire with the shotest path arround to swap
-		if PathwithAnts[indice] > PathwithAnts[Sindice] {
-			indice = Sindice
-		}
-		// if the current path didn't change it will keep it
+		indice = min(PathwithAnts)
 		AntPaths[i] = paths[indice]
 		PathwithAnts[indice]++
+		fmt.Println(indice)
+		// if i == 1 {
+		// 	AntPaths[i] = paths[0]
+		// 	PathwithAnts[indice]++
+		// 	continue
+		// }
+		// // if  you're in the middle  compare which path is shorter
+		// if len(paths)-1 > indice && indice > 0 {
+		// 	fmt.Println("compared with ", Sindice)
+		// 	Sindice = Getshorteindice(indice-1, indice+1)
+		// }
+		// // if you are at the end compaire with the previous
+		// if len(paths)-1 == indice {
+		// 	if indice > 0 {
+		// 		Sindice = indice - 1
+		// 	}
+		// }
+		// // compaire with the shotest path arround to swap
+		// if PathwithAnts[indice] > PathwithAnts[Sindice] {
+		// 	indice = Sindice
+		// }
+		// // if the current path didn't change it will keep it
+		// AntPaths[i] = paths[indice]
+		// PathwithAnts[indice]++
 
 	}
+}
+
+func min(m map[int]int) int {
+	fmt.Println("Test Path in Min: ", m)
+	theMin := m[0]
+	mi := 0
+	for key, value := range m {
+		if theMin > value {
+			theMin = value
+			mi = key
+		}
+	}
+	return mi
 }
 
 func Getshorteindice(i int, j int) int {

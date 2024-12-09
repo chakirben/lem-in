@@ -14,30 +14,28 @@ func main() {
 		fmt.Println("invalid number of args ")
 		return
 	}
-	farm := f.Readfile()
-	err := f.ParseFarm(farm)
-	if err != nil {
+	err := f.ReadFile(os.Args[1])
+	if err != "" {
 		fmt.Println(err)
 		return
 	}
-	fmt.Printf("%v\n\n%v\n\n%v\n\n%v\n\n%v\n\n", f.Fa.NOA, f.Fa.Rooms, f.Links, f.Fa.Start, f.Fa.End)
+
 	// initialize the visited map
-	for ele := range f.Fa.Rooms {
-		dfs.Visited[ele] = false
-	}
-	// start := strings.Split(f.Fa.Start, " ")
-	//	end := strings.Split(f.Farm.End, " ")
-	dfs.FindPaths(&f.Fa, f.Fa.Start, "")
-	sl := dfs.TrimPaths(dfs.Paths)
-	sl2 := dfs.SortPath(sl)
-	for _, path := range sl2 {
+	//visited := dfs.InitializeMap(&f.Fa)
+	//dfs.FindPaths(&f.Fa, f.Fa.Start, []string{}, visited)
+	paths := dfs.GetUniqueSortedPaths(&f.Fa)
+	//sl := dfs.TrimPaths(dfs.Paths)
+	//sl2 := dfs.SortPath(paths)
+	for _, path := range paths {
 		fmt.Println(path)
 	}
-	A.SpreadAnts(f.Fa.NOA, sl2)
+
 	//A.DeleteStart()
-	A.InitPathlength(sl2)
-	A.InitPositions(f.Fa.Start, f.Fa.NOA)
-	A.InitRooms(f.Roommss, f.Fa.Start, f.Fa.NOA)
+	A.InitPathlength(paths)
+	//fmt.Println("Test Test: ", A.PathwithAnts)
+	A.InitPositions(f.Fa.Start, f.Fa.Ants)
+	A.SpreadAnts(f.Fa.Ants, paths)
+	//A.InitRooms(f.Roommss, f.Fa.Start, f.Fa.Ants)
 	fmt.Println(A.AntPositions)
 	fmt.Println("---------------------------------")
 	fmt.Println("the Positions : ", A.AntPositions)
@@ -45,8 +43,8 @@ func main() {
 	fmt.Println("the ant paths : ", A.AntPaths)
 	fmt.Println("the rooms : ", A.RoomsSate)
 	fmt.Println("---------------------------------")
-	A.FindAntJourney(f.Fa.NOA, f.Fa.End, f.Fa.Start)
-	for i := range f.Fa.NOA {
+	A.FindAntJourney(f.Fa.Ants, f.Fa.End, f.Fa.Start)
+	for i := range f.Fa.Ants {
 		A.AntPositions[i+1] = f.Fa.Start
 	}
 }

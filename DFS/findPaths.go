@@ -1,68 +1,60 @@
 package dfs
-import f"lem_in/fileParsing"
 
-var (
-	Visited = make(map[string]bool)
-	Paths   []string
+import (
+	f "lem_in/fileParsing"
+	"sort"
+	"strings"
 )
 
-func InitializeMap(fr *f.Farm) {
-	for ele := range fr.Rooms {
-		Visited[ele] = false
+func InitializeMap(fr *f.Farm) map[string]bool {
+	visited := make(map[string]bool)
+	for room := range fr.Rooms {
+		visited[room] = false
 	}
+	return visited
 }
 
-func FindPaths(Frm *f.Farm, room string, path string) {
-	if room == Frm.End {
-		Paths = append(Paths, path[1:]+"-"+Frm.End)
-		return
+// FindPaths recursively finds all paths from start to end
+func FindPaths(farm *f.Farm, room string, path []string, visited map[string]bool) [][]string {
+	if room == farm.End {
+		return [][]string{append(path, farm.End)}
 	}
-	Visited[room] = true
-	// neighbors := GetAdjacencyOf(room)
-	for _, nei := range Frm.Rooms[room] {
-		if Visited[nei] {
-			continue
+
+	visited[room] = true
+	var allPaths [][]string
+
+	for _, neighbor := range farm.Rooms[room] {
+		if !visited[neighbor] {
+			newPaths := FindPaths(farm, neighbor, append(path, room), visited)
+			allPaths = append(allPaths, newPaths...)
 		}
-		FindPaths(Frm, nei, path+"-"+room)
 	}
-	Visited[room] = false
+	visited[room] = false // Backtrack
+	return allPaths
 }
 
-/* func GetAdjacencyOf(room string) []string {
-	Adjacency := []string{}
-	for _, link := range P.Links {
-		arr := strings.Split(link, "-")
-		if room == arr[0] {
-			Adjacency = append(Adjacency, arr[1])
-		}
-		if room == arr[1] {
-			Adjacency = append(Adjacency, arr[0])
-		}
-	}
-	return Adjacency
-} */
+// GetUniqueSortedPaths filters unique paths and sorts them by length
+func GetUniqueSortedPaths(farm *f.Farm) [][]string {
+	visited := InitializeMap(farm)
+	allPaths := FindPaths(farm, farm.Start, []string{}, visited)
 
-/* func findShortestPath(links []string, Start string, End string, room string) bool {
-	if room == End {
-		return true
+	uniquePathsMap := make(map[string]struct{})
+	for _, path := range allPaths {
+		// Convert path slice to a string representation
+		pathStr := strings.Join(path, "-")
+		uniquePathsMap[pathStr] = struct{}{}
 	}
-	Visited[room] = true
-	neighbors := GetAdjacencyOf(room)
-	for _, nei := range neighbors {
-		if Visited[nei] {
-			continue
-		}
-		findShortestPath(links, Start, End, nei)
+
+	// Convert map keys back to slices and collect unique paths
+	var uniquePaths [][]string
+	for pathStr := range uniquePathsMap {
+		uniquePaths = append(uniquePaths, strings.Split(pathStr, "-"))
 	}
-	return true
+
+	// Sort the unique paths by their length
+	sort.Slice(uniquePaths, func(i, j int) bool {
+		return len(uniquePaths[i]) < len(uniquePaths[j])
+	})
+
+	return uniquePaths
 }
-*/
-/* func InCircles(room string, path string) bool {
-	pathRooms := strings.Split(path, "-")
-	for _, ele := range pathRooms {
-		if ele == room {
-			return true
-		}
-	}
-	return false
-} */
