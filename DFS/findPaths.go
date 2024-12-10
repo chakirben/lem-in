@@ -2,7 +2,6 @@ package dfs
 
 import (
 	lem_in "lem_in/fileParsing"
-	"strings"
 )
 
 // import (
@@ -21,7 +20,10 @@ func InitializeMap(fr *lem_in.Farm) map[string]bool {
 // FindPaths recursively finds all paths from start to end
 func FindPaths(farm *lem_in.Farm, room string, path []string, visited map[string]bool) [][]string {
 	if room == farm.End {
-		return [][]string{append(path, farm.End)}
+		path = append(path, farm.End)
+		Temp := make([]string, len(path))
+		copy(Temp, path)
+		return [][]string{Temp}
 	}
 
 	visited[room] = true
@@ -40,18 +42,7 @@ func FindPaths(farm *lem_in.Farm, room string, path []string, visited map[string
 func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][]string) {
 	visited := InitializeMap(farm)
 	allPaths := FindPaths(farm, farm.Start, []string{}, visited)
-
-	uniquePathsMap := make(map[string]struct{})
-	for _, path := range allPaths {
-		pathStr := strings.Join(path, "-")
-		uniquePathsMap[pathStr] = struct{}{}
-	}
-
-	var uniquePaths [][]string
-	for pathStr := range uniquePathsMap {
-		uniquePaths = append(uniquePaths, strings.Split(pathStr, "-"))
-	}
-
+	// var uniquePaths [][]string
 	// // Sort the unique paths by their length
 	// sort.Slice(uniquePaths, func(i, j int) bool {
 	// 	return len(uniquePaths[i]) < len(uniquePaths[j])
@@ -60,7 +51,7 @@ func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][]string) {
 	usedRooms := make(map[string]bool)
 	var FilteredPaths [][]string
 
-	for _, path := range uniquePaths {
+	for _, path := range allPaths {
 		isNonOverlapping := true
 		for _, room := range path {
 			if room != farm.Start && room != farm.End && usedRooms[room] {
@@ -80,7 +71,7 @@ func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][]string) {
 		}
 	}
 
-	return uniquePaths, FilteredPaths
+	return allPaths, FilteredPaths
 }
 
 // ########################################################################## test Other way

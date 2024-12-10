@@ -17,7 +17,6 @@ type Farm struct {
 	IsEnd       bool
 }
 
-var Roommss []string
 var Fa = Farm{
 	Rooms:       make(map[string][]string),
 	Coordinates: make(map[string][2]int),
@@ -119,15 +118,12 @@ func SetRoom(line string, isStart bool) bool {
 
 	Fa.Coordinates[roomName] = [2]int{x, y}
 	if _, exists := Fa.Rooms[roomName]; !exists {
-		Roommss = append(Roommss, roomName)
 		Fa.Rooms[roomName] = []string{}
 	}
 
 	if isStart {
-		Roommss = append(Roommss, roomName)
 		Fa.Start = roomName
 	} else if Fa.IsEnd {
-		Roommss = append(Roommss, roomName)
 		Fa.End = roomName
 	}
 

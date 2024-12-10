@@ -25,16 +25,8 @@ func main() {
 		fmt.Println("ERROR: invalid data format, No Paths Found")
 		return
 	}
-	for _, path := range paths {
-		fmt.Println(path)
-	}
-	//fmt.Println(filterdpaths)
+	fmt.Println(paths)
+	
 	algo.Sendants(filteredPaths)
-	//bestComb, _ := algo.FindBestCombination(allCombinations)
-	//fmt.Printf("Minimum steps: %d\n", bestComb)
-	// _, bestRun := algo.CompareRuns(paths, 5)
-	// for _, step := range bestRun {
-	// 	fmt.Println(step)
-	// }
-
+	
 }
