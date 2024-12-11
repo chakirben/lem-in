@@ -84,11 +84,11 @@ func ReadFile(filepath string) string {
 		// Handle rooms and tunnels.
 		if strings.Contains(line, "-") {
 			if !Tunnels(line) {
-				return "ERROR: invalid data format, invalid tunnel"
+				return "ERROR: invalid data format, invalid Room"
 			}
 		} else {
 			if !SetRoom(line, false) {
-				return "ERROR: invalid data format, invalid room"
+				return "ERROR: invalid data format, invalid Room"
 			}
 		}
 	}
@@ -138,6 +138,12 @@ func Tunnels(line string) bool {
 	}
 
 	room1, room2 := rooms[0], rooms[1]
+	if _, exists := Fa.Coordinates[room1]; !exists {
+		return false
+	}
+	if _, exists := Fa.Coordinates[room2]; !exists {
+		return false
+	}
 	if _, exists := Fa.Rooms[room1]; !exists {
 		Fa.Rooms[room1] = []string{}
 	}
