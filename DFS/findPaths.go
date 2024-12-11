@@ -42,13 +42,14 @@ func FindPaths(farm *lem_in.Farm, room string, path []string, visited map[string
 func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][]string) {
 	visited := InitializeMap(farm)
 	allPaths := FindPaths(farm, farm.Start, []string{}, visited)
+	allPaths = SortPath(allPaths)
 	// var uniquePaths [][]string
 	// // Sort the unique paths by their length
 	// sort.Slice(uniquePaths, func(i, j int) bool {
 	// 	return len(uniquePaths[i]) < len(uniquePaths[j])
 	// })
-
-	usedRooms := make(map[string]bool)
+	return allPaths, FilterPath(allPaths)
+	/* usedRooms := make(map[string]bool)
 	var FilteredPaths [][]string
 
 	for _, path := range allPaths {
@@ -69,9 +70,9 @@ func GetUniqueAndFilteredPaths(farm *lem_in.Farm) ([][]string, [][]string) {
 				}
 			}
 		}
-	}
+	} */
 
-	return allPaths, FilteredPaths
+	// return allPaths, FilteredPaths
 }
 
 // ########################################################################## test Other way

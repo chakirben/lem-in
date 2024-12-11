@@ -19,14 +19,20 @@ func main() {
 		fmt.Println(err)
 		return
 	}
-	f.PrintAll()
+	// f.PrintAll()
 	paths, filteredPaths := dfs.GetUniqueAndFilteredPaths(&f.Fa)
+	for _, path := range paths {
+		fmt.Println(path)
+	}
+	for _, path := range filteredPaths {
+		fmt.Println(path)
+	}
+
 	if len(paths) == 0 {
 		fmt.Println("ERROR: invalid data format, No Paths Found")
 		return
 	}
-	fmt.Println(paths)
-	
+	// fmt.Println(paths)
+
 	algo.Sendants(filteredPaths)
-	
 }
